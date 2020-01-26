@@ -55,6 +55,30 @@ class Solution:
                 result.append([])
         return result
 
+    # 没有判断 k > len(链表) 的情况,还不如我自己写的
+    def splitListToParts2(self, root: ListNode, k: int):
+        N = 0
+        cur = root
+        while cur:
+            N += 1
+            cur = cur.next
+        mod = N % k
+        size = N // k
+        ret = []
+        cur = root
+
+        for i in range(k):
+            if cur:
+                ret.append(cur)
+                curSize = size + 1 if mod  > 0 else 0
+                mod -= 1
+                for j in range(curSize-1):
+                    cur = cur.next
+                next = cur.next
+                cur.next = None
+                cur = next
+        return ret
+
 
 
 a, b, c, d, e = ListNode(1), ListNode(2), ListNode(3), ListNode(4), ListNode(5)
@@ -63,7 +87,7 @@ a.next, b.next, c.next, d.next, e.next= b, c, d, e, a1
 a1.next, b1.next, c1.next, d1.next = b1, c1, d1, e1
 head = a
 s = Solution()
-result = s.splitListToParts(head,11)
+result = s.splitListToParts2(head,11)
 
 for n in result:
     while n:
